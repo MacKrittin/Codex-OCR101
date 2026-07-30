@@ -1,0 +1,11 @@
+:root { --accent: #d76000; --accent-soft: #fff1e5; }
+.wordmark { color: var(--accent); }
+.privacy, .panel-title > span { background: var(--accent-soft); color: #a94700; }
+.upload-button, .new-field button { background: var(--accent); }
+.document-row.selected { color: #a94700; background: var(--accent-soft); }
+.field-card { transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; cursor: pointer; }
+.field-card.selected { border: 2px solid var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(215, 96, 0, .12); }
+.field-card.selected::before { content: 'Editing'; display: inline-block; margin-bottom: 8px; padding: 3px 7px; border-radius: 999px; background: #d76000; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .04em; }
+.crop-box { outline-color: var(--accent); background: rgba(215, 96, 0, .13); }
+.crop-box span { background: var(--accent); }
+.crop-box.selected { outline-width: 3px; box-shadow: 0 0 0 4px rgba(215, 96, 0, .18); }
