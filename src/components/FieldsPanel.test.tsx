@@ -16,3 +16,11 @@ test('disables export with no fields', () => {
   render(<FieldsPanel fields={[]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} />);
   expect(screen.getByRole('button', { name: /export extracted text/i })).toBeDisabled();
 });
+
+test('starts a named field before it has a crop', async () => {
+  const onCreateField = vi.fn();
+  render(<FieldsPanel fields={[]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} onCreateField={onCreateField} />);
+  await userEvent.type(screen.getByLabelText('New field name'), 'Total');
+  await userEvent.click(screen.getByRole('button', { name: 'Add field' }));
+  expect(onCreateField).toHaveBeenCalledWith('Total');
+});
