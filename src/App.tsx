@@ -1,0 +1,18 @@
+import { useCallback, useState } from 'react';
+import * as pdfjsLib from 'pdfjs-dist';
+import { DocumentRail } from './components/DocumentRail';
+import { FieldsPanel } from './components/FieldsPanel';
+import { PdfCanvas } from './components/PdfCanvas';
+import { downloadText, formatExportText } from './lib/exportText';
+import type { ExtractedField, NormalizedRect, PdfDocument } from './types';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString();
+const updateDocument = (documents: PdfDocument[], id: string, updater: (document: PdfDocument) => PdfDocument) => documents.map((document) => document.id === id ? updater(document) : document);
+
+export default function App() {
+  const [documents, setDocuments] = useState<PdfDocument[]>([]); const [activeId, setActiveId] = useState<string>(); const [drawingName, setDrawingName] = useState<string>(); const [error, setError] = useState(''); const active = documents.find((document) => document.id === activeId);
+  const onUpload = useCallback(async (files: FileList | null) => { if (!files) return; setError(''); const next: PdfDocument[] = []; for (const file of Array.from(files)) { if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) { setError('Only PDF files can be added.'); continue; } try { const data = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({ data: data.slice(0) }).promise; next.push({ id: crypto.randomUUID(), filename: file.name, data, pageCount: pdf.numPages, fields: [] }); } catch { setError(`Could not open ${file.name}.`); } } if (next.length) { setDocuments((current) => [...current, ...next]); setActiveId((current) => current ?? next[0].id); } }, []);
+  const changeField = (id: string, patch: Partial<ExtractedField>) => activeId && setDocuments((current) => updateDocument(current, activeId, (document) => ({ ...document, fields: document.fields.map((field) => field.id === id ? { ...field, ...patch } : field) })));
+  const createField = (rect: NormalizedRect, page: number, value: string) => { if (!activeId || !drawingName) return; const field: ExtractedField = { id: crypto.randomUUID(), name: drawingName, page, rect, value, status: 'ready' }; setDocuments((current) => updateDocument(current, activeId, (document) => ({ ...document, fields: [...document.fields, field] }))); setDrawingName(undefined); };
+  return <div className="app-shell"><DocumentRail documents={documents} activeId={activeId} onUpload={onUpload} onSelect={setActiveId} /><main className="workspace">{error && <p className="error-banner">{error}</p>}{active ? <PdfCanvas document={active} fields={active.fields} drawingName={drawingName} onCreateField={createField} /> : <section className="welcome"><p className="eyebrow">Private document workspace</p><h1>PDF Field Extractor</h1><p>Upload PDFs, name the details you need, then draw a precise capture area. Your files never leave this browser.</p></section>}</main><FieldsPanel fields={active?.fields ?? []} drawing={Boolean(drawingName)} onStartField={setDrawingName} onFieldChange={changeField} onDelete={(id) => activeId && setDocuments((current) => updateDocument(current, activeId, (document) => ({ ...document, fields: document.fields.filter((field) => field.id !== id) })))} onExport={() => downloadText('extracted-data.txt', formatExportText(documents.map((document) => ({ filename: document.filename, fields: document.fields }))))} /></div>;
+}

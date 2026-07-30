@@ -1,0 +1,18 @@
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { expect, test, vi } from 'vitest';
+import { FieldsPanel } from './FieldsPanel';
+import { useState } from 'react';
+
+test('edits a value before export', async () => {
+  function Harness() { const [value, setValue] = useState('A-01'); return <FieldsPanel fields={[{ id: 'f-1', name: 'Invoice', page: 1, rect: { x: 0, y: 0, width: 1, height: 1 }, value, status: 'ready' }]} onFieldChange={(_, patch) => setValue(patch.value ?? value)} onDelete={vi.fn()} onExport={vi.fn()} />; }
+  render(<Harness />);
+  await userEvent.clear(screen.getByLabelText('Invoice value'));
+  await userEvent.type(screen.getByLabelText('Invoice value'), 'Corrected');
+  expect(screen.getByLabelText('Invoice value')).toHaveValue('Corrected');
+});
+
+test('disables export with no fields', () => {
+  render(<FieldsPanel fields={[]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} />);
+  expect(screen.getByRole('button', { name: /export extracted text/i })).toBeDisabled();
+});

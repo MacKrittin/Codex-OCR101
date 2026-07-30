@@ -1,0 +1,2 @@
+.welcome { min-width: 0; }
+.welcome h1 { font-size: clamp(32px, 4vw, 54px); overflow-wrap: anywhere; }
