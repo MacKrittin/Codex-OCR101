@@ -9,3 +9,9 @@
 .crop-box { outline-color: var(--accent); background: rgba(215, 96, 0, .13); }
 .crop-box span { background: var(--accent); }
 .crop-box.selected { outline-width: 3px; box-shadow: 0 0 0 4px rgba(215, 96, 0, .18); }
+.document-row { align-items: center; transition: transform .16s ease, box-shadow .16s ease, background .16s ease; }
+.document-row:hover, .field-card:hover, .upload-button:hover, .new-field button:hover, .export-button:hover, .canvas-toolbar button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(28, 35, 51, .12); }
+.document-select { display: flex; flex: 1; min-width: 0; align-items: center; gap: 10px; border: 0; padding: 10px; text-align: left; background: transparent; color: inherit; }
+.document-remove { display: grid; place-items: center; border: 0; border-radius: 7px; padding: 6px; background: transparent; color: #9aa3b5; opacity: 0; transition: opacity .16s ease, background .16s ease, color .16s ease; }
+.document-row:hover .document-remove, .document-row:focus-within .document-remove { opacity: 1; }
+.document-remove:hover { background: #fff1e5; color: var(--accent); }
