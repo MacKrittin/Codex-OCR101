@@ -15,3 +15,6 @@
 .document-remove { display: grid; place-items: center; border: 0; border-radius: 7px; padding: 6px; background: transparent; color: #9aa3b5; opacity: 0; transition: opacity .16s ease, background .16s ease, color .16s ease; }
 .document-row:hover .document-remove, .document-row:focus-within .document-remove { opacity: 1; }
 .document-remove:hover { background: #fff1e5; color: var(--accent); }
+.document-row { max-width: 100%; overflow: hidden; }
+.document-select > span { min-width: 0; flex: 1; }
+.document-select strong, .document-select small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
