@@ -2,6 +2,7 @@
 .wordmark { color: var(--accent); }
 .privacy, .panel-title > span { background: var(--accent-soft); color: #a94700; }
 .upload-button, .new-field button { background: var(--accent); }
+.upload-button.dragging { background: #a94700; box-shadow: 0 0 0 4px rgba(215, 96, 0, .18); }
 .document-row.selected { color: #a94700; background: var(--accent-soft); }
 .field-card { transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; cursor: pointer; }
 .field-card.selected { border: 2px solid var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(215, 96, 0, .12); }
