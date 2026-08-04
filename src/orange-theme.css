@@ -9,6 +9,9 @@
 .crop-box { outline-color: var(--accent); background: rgba(215, 96, 0, .13); }
 .crop-box span { background: var(--accent); }
 .crop-box.selected { outline-width: 3px; box-shadow: 0 0 0 4px rgba(215, 96, 0, .18); }
+.crop-cancel { position: absolute; top: -11px; right: -11px; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 2px solid #fff; border-radius: 999px; background: var(--accent); color: #fff; opacity: 0; pointer-events: none; transform: scale(.85); transition: opacity .15s ease, transform .15s ease, box-shadow .15s ease; }
+.crop-box:hover .crop-cancel, .crop-box:focus-within .crop-cancel { opacity: 1; pointer-events: auto; transform: scale(1); }
+.crop-cancel:hover, .crop-cancel:focus-visible { box-shadow: 0 4px 10px rgba(111, 48, 0, .3); outline: none; }
 .document-row { align-items: center; transition: transform .16s ease, box-shadow .16s ease, background .16s ease; }
 .document-row:hover, .field-card:hover, .upload-button:hover, .new-field button:hover, .export-button:hover, .canvas-toolbar button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(28, 35, 51, .12); }
 .document-select { display: flex; flex: 1; min-width: 0; align-items: center; gap: 10px; border: 0; padding: 10px; text-align: left; background: transparent; color: inherit; }
