@@ -14,7 +14,7 @@ test('edits a value before export', async () => {
 
 test('disables export with no fields', () => {
   render(<FieldsPanel fields={[]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} />);
-  expect(screen.getByRole('button', { name: /export extracted text/i })).toBeDisabled();
+  expect(screen.getByRole('button', { name: /export si form/i })).toBeDisabled();
 });
 
 test('starts a named field before it has a crop', async () => {
