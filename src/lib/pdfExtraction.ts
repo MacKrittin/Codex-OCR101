@@ -13,5 +13,5 @@ export async function extractTextFromRegion(page: Page, rect: NormalizedRect, vi
   const canvas = document.createElement('canvas'); canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
   await page.render({ canvasContext: canvas.getContext('2d')!, viewport }).promise;
   const crop = document.createElement('canvas'); crop.width = Math.max(1, Math.ceil(selected.width)); crop.height = Math.max(1, Math.ceil(selected.height)); crop.getContext('2d')!.drawImage(canvas, selected.x, selected.y, selected.width, selected.height, 0, 0, crop.width, crop.height);
-  const { createWorker } = await import('tesseract.js'); const worker = await createWorker('eng'); try { return (await worker.recognize(crop)).data.text.trim(); } finally { await worker.terminate(); }
+  const { createWorker } = await import('tesseract.js'); const worker = await createWorker('eng+tha'); try { return (await worker.recognize(crop)).data.text.trim(); } finally { await worker.terminate(); }
 }
