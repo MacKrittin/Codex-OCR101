@@ -25,6 +25,13 @@ test('starts a named field before it has a crop', async () => {
   expect(onCreateField).toHaveBeenCalledWith('Total');
 });
 
+test('requests expansion from the Capture details header', async () => {
+  const onExpandedChange = vi.fn();
+  render(<FieldsPanel fields={[]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} expanded={false} onExpandedChange={onExpandedChange} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Expand Capture details' }));
+  expect(onExpandedChange).toHaveBeenCalledWith(true);
+});
+
 test('shows a visible status while scanned text is being read', () => {
   render(<FieldsPanel fields={[{ id: 'f-scan', name: 'Receipt', page: 1, rect: { x: 0, y: 0, width: 1, height: 1 }, crops: [], value: '', status: 'extracting' }]} onFieldChange={vi.fn()} onDelete={vi.fn()} onExport={vi.fn()} />);
   expect(screen.getByText('Reading scanned text…')).toBeInTheDocument();
